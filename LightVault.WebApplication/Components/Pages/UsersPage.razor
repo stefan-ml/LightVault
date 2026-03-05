@@ -1,0 +1,123 @@
+﻿@page "/users"
+@rendermode InteractiveServer
+
+@using LightVault.WebApplication.Models
+@using LightVault.WebApplication.Services
+@inject UserService _userService
+@inject NavigationManager _nav
+@using Microsoft.AspNetCore.Components.Authorization
+@inject IJSRuntime JS
+
+<h3>👥 Users</h3>
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+
+        <button class="btn btn-primary mb-3" @onclick="CreateUser">
+            ➕ Add User
+        </button>
+
+        @if (_users is null)
+        {
+            <p>Loading...</p>
+        }
+        else if (_users.Count == 0)
+        {
+            <p>No users found.</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Is Active</th>
+                        <th style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var u in _users)
+                    {
+                        <tr>
+                            <td>@u.Username</td>
+                            <td>@u.Role</td>
+                            <td>@u.IsActive</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary me-1" @onclick="() => EditUser(u.Id)">
+                                    Edit
+                                </button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => DeleteUser(u.Id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </Authorized>
+
+    <NotAuthorized>
+        <p class="text-danger">You are not authorized to view users.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<UserDto>? _users;
+
+    [CascadingParameter] public Task<AuthenticationState> AuthTask { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        var auth = await AuthTask;
+
+        if (!auth.User.Identity?.IsAuthenticated ?? true)
+        {
+            _nav.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        if (!auth.User.IsInRole("Admin"))
+        {
+            _nav.NavigateTo("/");
+            return;
+        }
+
+        await LoadUsers();
+        StateHasChanged();
+    }
+
+    private async Task LoadUsers()
+    {
+        _users = await _userService.GetAll();
+    }
+
+    private void CreateUser()
+    {
+        _nav.NavigateTo("/users/create");
+    }
+
+    private void EditUser(Guid id)
+    {
+        _nav.NavigateTo($"/users/edit/{id}");
+    }
+
+    private async Task DeleteUser(Guid id)
+    {
+        if (await ConfirmDelete())
+        {
+            await _userService.Delete(id);
+            await LoadUsers();
+            StateHasChanged();
+        }
+    }
+
+    private async Task<bool> ConfirmDelete()
+    {
+        return await JS.InvokeAsync<bool>("confirm", "Are you sure?");
+    }
+
+}

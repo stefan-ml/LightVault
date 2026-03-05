@@ -1,0 +1,42 @@
+﻿@page "/login"
+@using LightVault.WebApplication.Services
+@rendermode InteractiveServer
+@inject NavigationManager Nav
+@inject AuthService Auth
+
+<PageTitle>Login</PageTitle>
+<h1>Login</h1>
+
+<div>
+    <input @bind="Username" placeholder="Username" />
+</div>
+<div>
+    <input @bind="Password" type="password" placeholder="Password" />
+</div>
+
+<button @onclick="DoLogin">Login</button>
+
+@if (!string.IsNullOrEmpty(Error))
+{
+    <p style="color:red">@Error</p>
+}
+
+@code {
+    private string Username = "";
+    private string Password = "";
+    private string? Error;
+
+    private async Task DoLogin()
+    {
+        var ok = await Auth.Login(Username, Password);
+
+        if (!ok)
+        {
+            Error = "Invalid username or password.";
+            return;
+        }
+
+        Error = null;
+        Nav.NavigateTo("/");
+    }
+}

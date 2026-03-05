@@ -1,0 +1,17 @@
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Infrastructure.deps.json
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Infrastructure.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Infrastructure.pdb
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Domain.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Domain.pdb
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.csproj.AssemblyReference.cache
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.AssemblyInfoInputs.cache
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.AssemblyInfo.cs
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVau.167FA6CF.Up2Date
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\refint\LightVault.Infrastructure.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.pdb
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\ref\LightVault.Infrastructure.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\bin\Debug\net9.0\LightVault.Infrastructure.runtimeconfig.json
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Infrastructure\obj\Debug\net9.0\LightVault.Infrastructure.genruntimeconfig.cache

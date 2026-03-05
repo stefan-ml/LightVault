@@ -1,0 +1,121 @@
+﻿@page "/users/edit/{Id:guid}"
+@rendermode InteractiveServer
+
+@using LightVault.WebApplication.Models
+@using LightVault.WebApplication.Services
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject UserService _userService
+@inject NavigationManager _nav
+
+<h3>✏️ Edit User</h3>
+
+<AuthorizeView Roles="Admin,Developer">
+    <Authorized Context="authState">
+
+        @if (_loading)
+        {
+            <p>Loading user...</p>
+        }
+        else if (_user is null)
+        {
+            <p class="text-danger">User not found.</p>
+        }
+        else
+        {
+            <EditForm Model="_model" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <!-- Username (read-only, NO InputText) -->
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input class="form-control"
+                           value="@_user.Username"
+                           disabled />
+                </div>
+
+                <!-- Role -->
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <InputSelect class="form-select"
+                                 @bind-Value="_model.Role">
+                        <option value="Admin">Admin</option>
+                        <option value="Developer">Developer</option>
+                        <option value="User">User</option>
+                    </InputSelect>
+                </div>
+
+                <button type="submit" class="btn btn-primary me-2">
+                    💾 Save
+                </button>
+
+                <button type="button"
+                        class="btn btn-secondary"
+                        @onclick="Cancel">
+                    Cancel
+                </button>
+            </EditForm>
+        }
+
+    </Authorized>
+
+    <NotAuthorized>
+        <p class="text-danger">You are not authorized to edit users.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+
+    private UserDto? _user;
+    private UpdateUserRequest _model = new();
+    private bool _loading = true;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthTask { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        var auth = await AuthTask;
+
+        if (!auth.User.Identity?.IsAuthenticated ?? true)
+        {
+            _nav.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        if (!auth.User.IsInRole("Admin"))
+        {
+            _nav.NavigateTo("/");
+            return;
+        }
+
+        _user = await _userService.GetById(Id);
+
+        if (_user != null)
+        {
+            _model = new UpdateUserRequest
+            {
+                Role = _user.Role
+            };
+        }
+
+        _loading = false;
+        StateHasChanged();
+    }
+
+    private async Task HandleSubmit()
+    {
+        await _userService.Update(Id, _model);
+        _nav.NavigateTo("/users");
+    }
+
+    private void Cancel()
+    {
+        _nav.NavigateTo("/users");
+    }
+}

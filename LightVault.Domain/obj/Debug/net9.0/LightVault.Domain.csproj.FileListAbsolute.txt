@@ -1,0 +1,11 @@
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\bin\Debug\net9.0\LightVault.Domain.deps.json
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\bin\Debug\net9.0\LightVault.Domain.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\bin\Debug\net9.0\LightVault.Domain.pdb
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.AssemblyInfoInputs.cache
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.AssemblyInfo.cs
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.csproj.CoreCompileInputs.cache
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\refint\LightVault.Domain.dll
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\LightVault.Domain.pdb
+C:\Stefan\master\Stefan\Projektovanje i implementacija sigurnog softvera\project\LightVault\LightVault.Domain\obj\Debug\net9.0\ref\LightVault.Domain.dll

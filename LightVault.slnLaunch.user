@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "LightVault.API\\LightVault.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "LightVault.WebApplication\\LightVault.WebApplication.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "LightVault.DemoApp\\LightVault.DemoApp.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

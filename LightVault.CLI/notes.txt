@@ -1,0 +1,4 @@
+$env:LIGHTVAULT_API_URL = "https://localhost:7010"
+$env:LIGHTVAULT_USERNAME = "admin"
+$env:LIGHTVAULT_PASSWORD = "admin123"
+dotnet run

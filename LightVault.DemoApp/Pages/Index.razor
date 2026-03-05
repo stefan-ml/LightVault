@@ -1,0 +1,51 @@
+﻿@page "/"
+@using LightVault.DemoApp.Services
+@inject LightVaultClient Vault
+@inject IConfiguration Cfg
+
+<h3>LightVault Integration Demo</h3>
+
+<p><b>Vault:</b> @Cfg["LightVault:BaseUrl"]</p>
+<p><b>Secret key:</b> @secretKey</p>
+
+<button class="btn btn-primary" @onclick="LoadSecret">Fetch secret</button>
+
+@if (status is not null)
+{
+    <div class="alert alert-info mt-3">@status</div>
+}
+
+@if (rawSecret is not null)
+{
+    <div class="alert alert-warning">
+        <b>Secret:</b> <code>@rawSecret</code>
+    </div>
+}
+
+@code {
+    private string secretKey = "";
+    private string? rawSecret;
+    private string? status;
+    private bool canTest => !string.IsNullOrWhiteSpace(rawSecret);
+
+    protected override void OnInitialized()
+    {
+        secretKey = Cfg["LightVault:SecretKey"] ?? "DB_MAIN_CONNECTION";
+    }
+
+    private async Task LoadSecret()
+    {
+        status = "Fetching secret from LightVault...";
+        rawSecret = null;
+
+        rawSecret = await Vault.GetSecretAsync(secretKey);
+
+        if (string.IsNullOrWhiteSpace(rawSecret))
+        {
+            status = "Failed (check API key / role / endpoint).";
+            return;
+        }
+
+        status = "OK ✅ Secret fetched from LightVault.";
+    }
+}

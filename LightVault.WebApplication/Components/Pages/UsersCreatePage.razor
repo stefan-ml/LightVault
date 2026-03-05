@@ -1,0 +1,97 @@
+﻿@page "/users/create"
+@rendermode InteractiveServer
+
+@using LightVault.WebApplication.Models
+@using LightVault.WebApplication.Services
+@using Microsoft.AspNetCore.Components.Authorization
+
+@inject UserService _userService
+@inject NavigationManager _nav
+
+<h3>➕ Add User</h3>
+
+<AuthorizeView Roles="Admin,Developer">
+    <Authorized Context="authState">
+
+        <EditForm Model="_model" OnValidSubmit="HandleSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <InputText class="form-control"
+                           @bind-Value="_model.Username" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <InputText class="form-control"
+                           type="password"
+                           @bind-Value="_model.Password" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <InputSelect class="form-select"
+                             @bind-Value="_model.Role">
+                    <option value="">-- select role --</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Admin">Developer</option>
+                    <option value="User">Auditor</option>
+                </InputSelect>
+            </div>
+
+            <button type="submit" class="btn btn-primary me-2">
+                💾 Save
+            </button>
+
+            <button type="button"
+                    class="btn btn-secondary"
+                    @onclick="Cancel">
+                Cancel
+            </button>
+        </EditForm>
+
+    </Authorized>
+
+    <NotAuthorized>
+        <p class="text-danger">You are not authorized to create users.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    private CreateUserRequest _model = new();
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthTask { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        var auth = await AuthTask;
+
+        if (!auth.User.Identity?.IsAuthenticated ?? true)
+        {
+            _nav.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        if (!auth.User.IsInRole("Admin"))
+        {
+            _nav.NavigateTo("/");
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        await _userService.Create(_model);
+        _nav.NavigateTo("/users");
+    }
+
+    private void Cancel()
+    {
+        _nav.NavigateTo("/users");
+    }
+}

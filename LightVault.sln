@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.Domain", "LightVault.Domain\LightVault.Domain.csproj", "{C7180ECB-C15F-4C6A-91C2-9F883E974F3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.Infrastructure", "LightVault.Infrastructure\LightVault.Infrastructure.csproj", "{C8EBF99E-28BA-4A1E-85AA-550038F1A2C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.API", "LightVault.API\LightVault.API.csproj", "{849122FF-69A2-4CF8-91D6-198561A9D97B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.CLI", "LightVault.CLI\LightVault.CLI.csproj", "{1D21A94E-B8B1-462A-B611-00BC88B7B370}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.WebApplication", "LightVault.WebApplication\LightVault.WebApplication.csproj", "{EB8EF98B-1338-43B0-BEDD-AA72E2D6D1C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightVault.DemoApp", "LightVault.DemoApp\LightVault.DemoApp.csproj", "{1CBFBFCD-E04C-8D4C-DE4E-BC42D83F8A54}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7180ECB-C15F-4C6A-91C2-9F883E974F3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7180ECB-C15F-4C6A-91C2-9F883E974F3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7180ECB-C15F-4C6A-91C2-9F883E974F3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7180ECB-C15F-4C6A-91C2-9F883E974F3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8EBF99E-28BA-4A1E-85AA-550038F1A2C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8EBF99E-28BA-4A1E-85AA-550038F1A2C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8EBF99E-28BA-4A1E-85AA-550038F1A2C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8EBF99E-28BA-4A1E-85AA-550038F1A2C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{849122FF-69A2-4CF8-91D6-198561A9D97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{849122FF-69A2-4CF8-91D6-198561A9D97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{849122FF-69A2-4CF8-91D6-198561A9D97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{849122FF-69A2-4CF8-91D6-198561A9D97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D21A94E-B8B1-462A-B611-00BC88B7B370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D21A94E-B8B1-462A-B611-00BC88B7B370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D21A94E-B8B1-462A-B611-00BC88B7B370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D21A94E-B8B1-462A-B611-00BC88B7B370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8EF98B-1338-43B0-BEDD-AA72E2D6D1C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8EF98B-1338-43B0-BEDD-AA72E2D6D1C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8EF98B-1338-43B0-BEDD-AA72E2D6D1C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8EF98B-1338-43B0-BEDD-AA72E2D6D1C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CBFBFCD-E04C-8D4C-DE4E-BC42D83F8A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CBFBFCD-E04C-8D4C-DE4E-BC42D83F8A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CBFBFCD-E04C-8D4C-DE4E-BC42D83F8A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CBFBFCD-E04C-8D4C-DE4E-BC42D83F8A54}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {423794DE-24FD-439D-8EDC-0E7F69F79E98}
+	EndGlobalSection
+EndGlobal

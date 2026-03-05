@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LightVault.Infrastructure": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ConnectionStrings__Default": "Server=localhost,1433;Database=LightVaultDb;User Id=sa;Password=SecureApi@2025;TrustServerCertificate=True;"
+      }
+    }
+  }
+}

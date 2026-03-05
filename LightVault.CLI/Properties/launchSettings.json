@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "LightVault.CLI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "LIGHTVAULT_API_URL": "https://localhost:7010",
+        "LIGHTVAULT_USERNAME": "admin",
+        "LIGHTVAULT_PASSWORD": "admin123"
+      }
+    }
+  }
+}

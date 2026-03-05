@@ -1,0 +1,129 @@
+﻿@page "/audit"
+@rendermode InteractiveServer
+
+@using LightVault.WebApplication.Models
+@using LightVault.WebApplication.Services
+@inject AuditService _auditService
+@inject NavigationManager _nav
+@using Microsoft.AspNetCore.Components.Authorization
+
+<h3>🛡️ Audit Log</h3>
+
+<AuthorizeView Roles="Admin,Auditor">
+    <Authorized>
+
+        <div class="card p-3 mb-3">
+            <h5>Filter</h5>
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label class="form-label">User</label>
+                    <InputText class="form-control" @bind-Value="_filterUser" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Action</label>
+                    <InputText class="form-control" @bind-Value="_filterAction" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">From</label>
+                    <InputDate class="form-control" @bind-Value="_filterFrom" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">To</label>
+                    <InputDate class="form-control" @bind-Value="_filterTo" />
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <button class="btn btn-primary me-2" @onclick="ApplyFilter">Apply</button>
+                <button class="btn btn-secondary" @onclick="ClearFilter">Clear</button>
+            </div>
+        </div>
+
+        @if (_logs is null)
+        {
+            <p>Loading...</p>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Secret</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var l in _logs)
+                    {
+                        <tr>
+                            <td>@l.Actor</td>
+                            <td>@l.Action</td>
+                            <td>@l.SecretId</td>
+                            <td>@l.Timestamp.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </Authorized>
+
+    <NotAuthorized>
+        <p class="text-danger">You are not authorized to view audit logs.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private List<AuditEntryDto>? _logs;
+
+    // FILTER FIELDS
+    private string? _filterUser;
+    private string? _filterAction;
+    private DateTime? _filterFrom;
+    private DateTime? _filterTo;
+
+    [CascadingParameter] public Task<AuthenticationState> AuthTask { get; set; } = null!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        var auth = await AuthTask;
+
+        if (!auth.User.Identity?.IsAuthenticated ?? true)
+        {
+            _nav.NavigateTo("/login", forceLoad: true);
+            return;
+        }
+
+        if (!(auth.User.IsInRole("Admin") || auth.User.IsInRole("Auditor")))
+        {
+            _nav.NavigateTo("/");
+            return;
+        }
+
+        _logs = await _auditService.GetAll();
+        StateHasChanged();
+    }
+
+    private async Task ApplyFilter()
+    {
+        _logs = await _auditService.Filter(_filterUser, _filterAction, _filterFrom, _filterTo);
+    }
+
+    private async Task ClearFilter()
+    {
+        _filterUser = null;
+        _filterAction = null;
+        _filterFrom = null;
+        _filterTo = null;
+
+        _logs = await _auditService.GetAll();
+    }
+}

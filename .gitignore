@@ -1,0 +1,70 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# ASP.NET / .NET secrets
+secrets.json
+
+# Environment files
+.env
+.env.*
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# Publish output
+publish/
+out/
+
+# Test results
+TestResults/
+
+# Node (if frontend tools are used)
+node_modules/
+
+# Blazor / Web build artifacts
+wwwroot/dist/
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Temporary files
+*.tmp
+*.temp
+
+# SQL Server local files
+*.mdf
+*.ldf
+
+# Appsettings overrides (optional)
+appsettings.Local.json
+appsettings.*.Local.json
+appsettings.Development.json
+
+
+# Logs folder
+logs/

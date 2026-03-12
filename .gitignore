@@ -68,3 +68,6 @@ appsettings.Development.json
 
 # Logs folder
 logs/
+
+#Anchor audit log
+LightVault.API/audit/anchor.json

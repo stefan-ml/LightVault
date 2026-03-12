@@ -44,6 +44,7 @@ builder.Services.AddScoped<IUserContext, HttpUserContext>();
 builder.Services.AddScoped<ISecretService, SecretService>();
 builder.Services.AddScoped<IServiceAccountService, ServiceAccountService>();
 builder.Services.AddScoped<IApiKeyGenerator, ApiKeyGenerator>();
+builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 
 builder.Services.AddControllers();
 

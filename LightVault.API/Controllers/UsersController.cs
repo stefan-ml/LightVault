@@ -1,11 +1,8 @@
 ﻿using LightVault.API.DTOs;
-using LightVault.Infrastructure.Data;
-using LightVault.Infrastructure.Entities;
+using LightVault.Domain.Interfaces;
+using LightVault.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace LightVault.API.Controllers;
 
@@ -14,55 +11,41 @@ namespace LightVault.API.Controllers;
 [Authorize(Roles = "Admin")]
 public class UsersController : ControllerBase
 {
-    private readonly LightVaultDbContext _db;
+    private readonly IUserManagementService _userManagementService;
 
-    public UsersController(LightVaultDbContext db)
+    public UsersController(IUserManagementService userManagementService)
     {
-        _db = db;
+        _userManagementService = userManagementService;
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(Guid id, CancellationToken ct)
     {
-        var user = await _db.Users
-            .Where(u => u.Id == id)
-            .Select(u => new
-            {
-                Id = u.Id,
-                Username = u.Username,
-                Role = u.Role,
-                IsActive = u.IsActive
-            })
-            .FirstOrDefaultAsync();
+        var user = await _userManagementService.GetAsync(id, ct);
 
-        if (user == null) return NotFound();
+        if (user == null)
+            return NotFound();
+
         return Ok(user);
     }
 
-
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var list = await _db.Users
-            .Select(u => new
-            {
-                u.Id,
-                u.Username,
-                u.Role,
-                u.IsActive
-            })
-            .ToListAsync();
-
+        var list = await _userManagementService.GetAllAsync(ct);
         return Ok(list);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateUserRequest req)
+    public async Task<IActionResult> Create(CreateUserRequest req, CancellationToken ct)
     {
-        var exists = await _db.Users
-        .AnyAsync(u => u.Username.ToLower() == req.Username.ToLower());
+        var result = await _userManagementService.CreateAsync(
+            req.Username,
+            req.Password,
+            req.Role,
+            ct);
 
-        if (exists)
+        if (result.Status == CreateUserStatus.UsernameAlreadyExists)
         {
             return BadRequest(new
             {
@@ -70,23 +53,7 @@ public class UsersController : ControllerBase
             });
         }
 
-        var hash = Convert.ToBase64String(
-            SHA256.HashData(Encoding.UTF8.GetBytes(req.Password)));
-
-        var user = new UserEntity
-        {
-            Username = req.Username,
-            PasswordHash = hash,
-            Role = req.Role,
-            IsActive = true
-        };
-
-        try
-        {
-            _db.Users.Add(user);
-            await _db.SaveChangesAsync();
-        }
-        catch (DbUpdateException)
+        if (result.Status == CreateUserStatus.Error)
         {
             return BadRequest(new
             {
@@ -94,29 +61,33 @@ public class UsersController : ControllerBase
             });
         }
 
-        return Ok(user);
+        return Ok(new
+        {
+            result.Id,
+            result.Username,
+            result.Role,
+            result.IsActive
+        });
     }
 
     [HttpPut("{id:guid}/role")]
-    public async Task<IActionResult> UpdateRole(Guid id, UpdateUserRoleRequest req)
+    public async Task<IActionResult> UpdateRole(Guid id, UpdateUserRoleRequest req, CancellationToken ct)
     {
-        var user = await _db.Users.FindAsync(id);
-        if (user == null) return NotFound();
+        var result = await _userManagementService.UpdateRoleAsync(id, req.Role, ct);
 
-        user.Role = req.Role;
-        await _db.SaveChangesAsync();
+        if (result == UpdateUserRoleStatus.NotFound)
+            return NotFound();
 
         return Ok();
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
     {
-        var user = await _db.Users.FindAsync(id);
-        if (user == null) return NotFound();
+        var result = await _userManagementService.DeleteAsync(id, ct);
 
-        user.IsActive = false;
-        await _db.SaveChangesAsync();
+        if (result == DeleteUserStatus.NotFound)
+            return NotFound();
 
         return Ok();
     }

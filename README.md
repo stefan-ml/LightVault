@@ -53,11 +53,10 @@ Rešenje se sastoji od:
 
 ---
 
-## 🖥️ Frontend (Web Application)
+## 🖥️ Frontend 
 
 ### Tehnologije
 - **.NET 9 Blazor Web App (Interactive Server)**
-- **Bootstrap 5**
 - **Blazored.LocalStorage**
 
 ### Ključne funkcionalnosti

@@ -1,13 +1,9 @@
 ﻿using LightVault.API.DTOs;
 using LightVault.Domain.Interfaces;
-using LightVault.Infrastructure.Data;
-using LightVault.Infrastructure.Entities;
-using LightVault.Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
+using LoginRequest = LightVault.API.DTOs.LoginRequest;
 
 namespace LightVault.API.Controllers;
 
@@ -15,82 +11,46 @@ namespace LightVault.API.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly LightVaultDbContext _db;
-    private readonly JwtService _jwt;
-    private readonly IApiKeyHasher _hasher;
+    private readonly IUserAuthService _userAuthService;
+    private readonly IServiceAccountAuthService _serviceAccountAuthService;
 
     public AuthController(
-        LightVaultDbContext db,
-        JwtService jwt,
-        IApiKeyHasher hasher)
+        IUserAuthService userAuthService,
+        IServiceAccountAuthService serviceAccountAuthService)
     {
-        _db = db;
-        _jwt = jwt;
-        _hasher = hasher;
+        _userAuthService = userAuthService;
+        _serviceAccountAuthService = serviceAccountAuthService;
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest req)
+    public async Task<IActionResult> Login(LoginRequest req, CancellationToken ct)
     {
-        var user = await _db.Users.FirstOrDefaultAsync(x =>
-            x.Username == req.Username && x.IsActive);
+        var result = await _userAuthService.LoginAsync(req.Username, req.Password, ct);
 
-        if (user == null) return Unauthorized();
-
-        if (!VerifyPassword(req.Password, user.PasswordHash))
+        if (result == null)
             return Unauthorized();
 
-        var token = _jwt.CreateToken(user.Id, user.Username, user.Role);
-
-        return Ok(new { token, user.Username, user.Role });
-    }
-
-    private static bool VerifyPassword(string password, string hash)
-    {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(bytes) == hash;
+        return Ok(new
+        {
+            token = result.Token,
+            result.Username,
+            result.Role
+        });
     }
 
     [HttpPost("service-login")]
     [AllowAnonymous]
-    public async Task<IActionResult> ServiceLogin(ServiceLoginRequest request)
+    public async Task<IActionResult> ServiceLogin(ServiceLoginRequest request, CancellationToken ct)
     {
-        var accounts = await _db.ServiceAccounts
-            .Where(x => x.IsActive)
-            .ToListAsync();
+        var result = await _serviceAccountAuthService.LoginAsync(request.ApiKey, ct);
 
-        ServiceAccount? matchedAccount = null;
-
-        foreach (var account in accounts)
-        {
-            if (_hasher.Verify(request.ApiKey, account.ApiKeyHash, account.ApiKeySalt))
-            {
-                matchedAccount = account;
-                break;
-            }
-        }
-
-        if (matchedAccount == null)
+        if (result == null)
             return Unauthorized("Invalid API key.");
-
-        matchedAccount.LastUsedAtUtc = DateTime.UtcNow;
-        await _db.SaveChangesAsync();
-
-        var token = _jwt.CreateToken(
-            matchedAccount.Id,
-            matchedAccount.AppName,
-            matchedAccount.Role);
 
         return Ok(new
         {
-            token,
-            AppName = matchedAccount.AppName
+            token = result.Token,
+            AppName = result.AppName
         });
     }
-}
-
-public class LoginRequest
-{
-    public string Username { get; set; } = default!;
-    public string Password { get; set; } = default!;
 }

@@ -42,6 +42,8 @@ builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserContext, HttpUserContext>();
 builder.Services.AddScoped<ISecretService, SecretService>();
+builder.Services.AddScoped<IServiceAccountService, ServiceAccountService>();
+builder.Services.AddScoped<IApiKeyGenerator, ApiKeyGenerator>();
 
 builder.Services.AddControllers();
 

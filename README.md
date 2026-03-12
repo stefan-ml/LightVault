@@ -6,12 +6,11 @@ LightVault je siguran, API-first sistem za upravljanje tajnama sa fokusom na sec
 
 ## 🎯 Ciljevi projekta
 
-- Centralizovano upravljanje osetljivim konfiguracionim vrednostima (passwords, API keys, tokens)
-- Enkripcija tajni (bez čuvanja plaintext vrednosti)
+- Centralizovano upravljanje osetljivim konfiguracionim vrednostima
+- Enkripcija tajni 
 - Versioning tajni sa kontrolisanom rotation logikom
 - Role-Based Access Control (RBAC) za korisnike (Admin, Developer i Auditor)
 - Tamper-evident audit logging radi obezbeđivanja redosleda i integriteta sigurnosnih događaja
-- API-first dizajn sa Web UI i CLI klijentima
 
 ---
 
@@ -49,8 +48,8 @@ Rešenje se sastoji od:
   - Podrška za **rotation** (nova verzija postaje aktivna)
 
 - **Audit Logging**
-  - Audit zapisi se kreiraju za sve sigurnosno kritične akcije (npr. create/update/rotate)
-  - Implementiran **tamper-evident audit log** korišćenjem hash-chain pristupa (svaki zapis je povezan sa prethodnim)
+  - Audit zapisi se kreiraju za sve operacije nad tajnama
+  - Implementiran **tamper-evident audit log** korišćenjem hash-chain pristupa
 
 ---
 
@@ -64,18 +63,27 @@ Rešenje se sastoji od:
 ### Ključne funkcionalnosti
 - Autentifikacija korisnika
 - Prikaz liste tajni i detalja pojedinačne tajne
-- Kreiranje tajni i rotation tokovi
-- Administracija korisnika (kreiranje, izmena, upravljanje rolama)
+- Kreiranje tajni i rotation
+- Administracija korisnika 
 - Prikaz audit logova
-- Token-based session management 
-- Kreiranje i birsanje novih korisnika
-
 ---
 
-## 🔐 Security Highlights
+## 🚀 Pokretanje projekta
 
-- **Encryption at Rest:** Tajne se nikada ne čuvaju u plaintext obliku.
-- **RBAC:** Pristup i operacije su ograničeni na osnovu korisničkih rola.
-- **Versioning & Rotation:** Omogućeno bezbedno ažuriranje tajni tokom vremena.
-- **Tamper-Evident Audit:** Integritet audit logova je zaštićen korišćenjem hash-chain mehanizma.
+- Pokretanje MSSQL servera lokalno u docker-u: 
 
+```
+docker run -e "ACCEPT_EULA=Y" \
+-e "SA_PASSWORD=YourStrong!Passw0rd" \
+-p 1433:1433 \
+--name lightvault-sql \
+-d mcr.microsoft.com/mssql/server:2022-latest
+```
+
+- Pokrenuti migracije:
+
+```dotnet ef database update```
+
+- I pokretanje projekta: 
+
+```dotnet run```

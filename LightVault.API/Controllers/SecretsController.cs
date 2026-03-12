@@ -18,6 +18,7 @@ public class SecretsController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> GetAll(CancellationToken ct = default)
     {
         var list = await _secretService.GetAllAsync(ct);
@@ -25,6 +26,7 @@ public class SecretsController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> Get(Guid id, CancellationToken ct = default)
     {
         var result = await _secretService.GetAsync(id, ct);
@@ -35,6 +37,7 @@ public class SecretsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> Create(CreateSecretRequest req, CancellationToken ct = default)
     {
         var id = await _secretService.CreateAsync(req.Name, req.Value, ct);
@@ -42,6 +45,7 @@ public class SecretsController : ControllerBase
     }
 
     [HttpGet("{id:guid}/versions/{version:int}")]
+    [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> GetByVersion(Guid id, int version, CancellationToken ct = default)
     {
         var result = await _secretService.GetByVersionAsync(id, version, ct);
@@ -52,6 +56,7 @@ public class SecretsController : ControllerBase
     }
 
     [HttpPost("{id:guid}/rotate")]
+    [Authorize(Roles = "Admin,Developer")]
     public async Task<IActionResult> Rotate(Guid id, RotateSecretRequest req, CancellationToken ct = default)
     {
         try

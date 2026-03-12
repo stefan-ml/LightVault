@@ -8,6 +8,7 @@ namespace LightVault.API.Controllers;
 
 [ApiController]
 [Route("api/service-accounts")]
+[Authorize(Roles = "Admin")]
 public class ServiceAccountsController : ControllerBase
 {
     private readonly IServiceAccountService _serviceAccountService;
@@ -17,7 +18,6 @@ public class ServiceAccountsController : ControllerBase
         _serviceAccountService = serviceAccountService;
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(
         CreateServiceAccountRequest request,
@@ -40,7 +40,6 @@ public class ServiceAccountsController : ControllerBase
         });
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll(CancellationToken ct)
     {
@@ -48,7 +47,6 @@ public class ServiceAccountsController : ControllerBase
         return Ok(list);
     }
 
-    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Revoke(Guid id, CancellationToken ct)
     {

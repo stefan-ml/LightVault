@@ -2,8 +2,6 @@
 using LightVault.Domain.Models;
 using LightVault.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace LightVault.Infrastructure.Services;
 
@@ -11,11 +9,16 @@ public sealed class UserAuthService : IUserAuthService
 {
     private readonly LightVaultDbContext _db;
     private readonly JwtService _jwt;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UserAuthService(LightVaultDbContext db, JwtService jwt)
+    public UserAuthService(
+        LightVaultDbContext db,
+        JwtService jwt,
+        IPasswordHasher passwordHasher)
     {
         _db = db;
         _jwt = jwt;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<UserLoginResult?> LoginAsync(
@@ -29,7 +32,7 @@ public sealed class UserAuthService : IUserAuthService
         if (user == null)
             return null;
 
-        if (!VerifyPassword(password, user.PasswordHash))
+        if (!_passwordHasher.Verify(password, user.PasswordHash))
             return null;
 
         var token = _jwt.CreateToken(user.Id, user.Username, user.Role);
@@ -40,11 +43,5 @@ public sealed class UserAuthService : IUserAuthService
             Username = user.Username,
             Role = user.Role
         };
-    }
-
-    private static bool VerifyPassword(string password, string hash)
-    {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(password));
-        return Convert.ToBase64String(bytes) == hash;
     }
 }

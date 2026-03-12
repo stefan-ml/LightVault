@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace LightVault.WebApplication.Services
 {
@@ -59,9 +60,23 @@ namespace LightVault.WebApplication.Services
         public async Task<T?> PostAsync<T>(string url, object data)
         {
             await AttachJwt();
+
             var response = await Http.PostAsJsonAsync(url, data);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<T>();
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException(
+                    $"POST {url} failed with status {(int)response.StatusCode} ({response.StatusCode}). Response: {content}");
+            }
+
+            if (string.IsNullOrWhiteSpace(content))
+                return default;
+
+            return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            });
         }
 
         public async Task<T?> PutAsync<T>(string url, object data)

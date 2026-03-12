@@ -38,6 +38,10 @@ builder.Services.AddScoped<IAuditQueryService, AuditQueryService>();
 builder.Services.AddScoped<IAuditVerificationService, AuditVerificationService>();
 builder.Services.AddScoped<IUserAuthService, UserAuthService>();
 builder.Services.AddScoped<IServiceAccountAuthService, ServiceAccountAuthService>();
+builder.Services.AddScoped<IPasswordHasher, Sha256PasswordHasher>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IUserContext, HttpUserContext>();
+builder.Services.AddScoped<ISecretService, SecretService>();
 
 builder.Services.AddControllers();
 

@@ -34,6 +34,8 @@ builder.Services.AddSingleton<IEncryptionService>(
     new EncryptionService(masterKey)
 );
 builder.Services.AddScoped<IApiKeyHasher, Sha256ApiKeyHasher>();
+builder.Services.AddScoped<IAuditQueryService, AuditQueryService>();
+builder.Services.AddScoped<IAuditVerificationService, AuditVerificationService>();
 
 builder.Services.AddControllers();
 

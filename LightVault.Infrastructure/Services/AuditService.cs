@@ -58,9 +58,8 @@ public class AuditService
             SecretId = secretId,
             Details = details,
             TimestampUtc = timestampUtc,
-
             PrevHash = prevHash,
-            Hash = string.Empty // computed below
+            Hash = string.Empty 
         };
 
         var canonicalPayload = BuildCanonicalPayload(entry);

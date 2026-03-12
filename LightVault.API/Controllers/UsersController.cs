@@ -1,4 +1,5 @@
-﻿using LightVault.Infrastructure.Data;
+﻿using LightVault.API.DTOs;
+using LightVault.Infrastructure.Data;
 using LightVault.Infrastructure.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -119,16 +120,4 @@ public class UsersController : ControllerBase
 
         return Ok();
     }
-}
-
-public class CreateUserRequest
-{
-    public string Username { get; set; } = default!;
-    public string Password { get; set; } = default!;
-    public string Role { get; set; } = "Developer";
-}
-
-public class UpdateUserRoleRequest
-{
-    public string Role { get; set; } = default!;
 }

@@ -56,10 +56,13 @@ builder.Services.AddAuthentication("Bearer")
     {
         opts.TokenValidationParameters = new()
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
+
+            ValidIssuer = "LightVault",
+            ValidAudience = "LightVault",
             IssuerSigningKey =
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]!))
         };

@@ -71,3 +71,5 @@ logs/
 
 #Anchor audit log
 LightVault.API/audit/anchor.json
+
+launchSettings.json
